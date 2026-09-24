@@ -30,7 +30,7 @@
 
 ---
 
-## 🛠️ 5. Daftar Fitur Inti (Target 12 Pertemuan)
+## 🛠️ 5. Daftar Fitur Inti 
 * 🎯 **Kalkulator & Generator Budget Smart:** Membagi total anggaran ke dalam porsi harian (1, 3, atau 7 hari) dan frekuensi makan (2x/3x sehari).
 * 🔒 **Grid Rencana Makan Interaktif:**
   * **Swap (Tukar Menu):** Mengganti 1 slot menu spesifik tanpa mengacak menu lainnya.
@@ -42,7 +42,7 @@
 
 ---
 
-## 🚫 6. Fitur yang Tidak Dikerjakan (*Out of Scope*)
+## 🚫 6. Fitur yang Tidak Dikerjakan 
 Untuk menjaga fokus penyelesaian dalam rentang 12 pertemuan, fitur berikut **tidak dimasukkan** dalam pengembangan:
 * ❌ **Transaksi & Payment Gateway:** Tidak ada proses pembayaran langsung atau dompet digital di aplikasi.
 * ❌ **Integrasi API Live Order (GoFood/GrabFood/ShopeeFood):** Tidak terhubung langsung dengan aplikasi pemesanan makanan luar.
@@ -54,7 +54,7 @@ Untuk menjaga fokus penyelesaian dalam rentang 12 pertemuan, fitur berikut **tid
 
 ## ✅ 7. Kriteria Aplikasi Dinyatakan Berhasil
 Aplikasi **HematBite** dinyatakan berhasil dan siap diuji apabila memenuhi kriteria berikut:
-1. **Akurasi Perhitungan:** Algoritma dapat membagi *budget* dan memilih kombinasi menu tanpa ada total biaya yang melebihi batas anggaran (+ toleransi $20\%$).
+1. **Akurasi Perhitungan:** Algoritma dapat membagi *budget* dan memilih kombinasi menu tanpa ada total biaya yang melebihi batas anggaran.
 2. **Persistensi Data:** Data katalog menu (CRUD) dan rencana makan tetap tersimpan di *browser* meskipun halaman di-*refresh*.
 3. **Interaktivitas Fitur:** Fitur *Lock*, *Swap*, dan penyusunan *Shopping List* berfungsi $100\%$ tanpa *error* JavaScript.
 4. **Responsif & Ramah Cetak:** Antarmuka dapat diakses secara nyaman melalui layar HP (*Mobile Browser*) serta menghasilkan layout yang rapi saat dicetak ke PDF.
