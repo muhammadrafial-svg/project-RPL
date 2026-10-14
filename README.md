@@ -74,7 +74,74 @@ Aplikasi **HematBite** dinyatakan berhasil apabila memenuhi kriteria berikut:
 * **Language & Logic:** Vanilla JavaScript (ES6+)
 * **State Management:** Web Storage API (`localStorage`)
 * **Architecture:** Client-Side Single Page Application (No-Build Static Architecture)
+# 🍱 HematBite - Smart Meal & Budget Planner (MVP Version 1)
 
+**HematBite** adalah aplikasi web berbasis *Single Page Application* (SPA) yang membantu mahasiswa dan pekerja pemula (*first-jobber*) merencanakan jadwal menu makan harian sesuai anggaran (*budget*) tanpa potensi *food waste*.
+
+---
+
+## 🎯 Spesifikasi MVP & 5 User Stories
+
+### **US-1: Autentikasi Pengguna & Sesi Lokal**
+- **Brief:** Buat sistem login/register lokal tanpa backend.
+- **Acceptance Criteria:**
+  - Registrasi menyimpan nama pengguna & kata sandi ke `localStorage`.
+  - Sistem menolak registrasi jika *username* sudah digunakan.
+  - Sesi login bertahan saat halaman direfresh dan terhapus saat *Logout*.
+
+### **US-2: Smart Budget Meal Generator**
+- **Brief:** Algoritma pembagi budget harian ke porsi makan harian.
+- **Acceptance Criteria:**
+  - Menghitung target budget porsi: `(Total Budget / Hari) / Frekuensi`.
+  - Memilih menu acak sesuai kategori porsi dengan toleransi budget +25%.
+  - Total pengeluaran aktual dihitung secara transparan.
+
+### **US-3: Lock & Swap Engine**
+- **Brief:** Fitur kunci menu favorit dan tukar menu tunggal.
+- **Acceptance Criteria:**
+  - Menu yang dikunci (`isLocked = true`) tidak berubah saat re-generate.
+  - Fitur *Swap* mengganti 1 slot menu spesifik secara acak.
+  - Biaya akumulatif otomatis dihitung ulang.
+
+### **US-4: Auto-Shopping List Compiler**
+- **Brief:** Rekap bahan otomatis dari rencana aktif.
+- **Acceptance Criteria:**
+  - Mengambil bahan khusus dari menu bertipe `masak`.
+  - Menggabungkan bahan duplikat (*deduplication*) dan membersihkan spasi.
+  - Status centang tersimpan di `localStorage`.
+
+### **US-5: Manajemen Katalog Makanan (CRUD)**
+- **Brief:** Manajemen database menu makanan.
+- **Acceptance Criteria:**
+  - Tambah menu baru dengan validasi harga (>0).
+  - Pencarian menu secara *real-time* berdasarkan kata kunci.
+  - Hapus menu dari katalog secara persisten.
+
+---
+
+## 🧪 Berkas Unit Test & Cara Menjalankan
+
+Aplikasi ini dilengkapi 5 file Unit Test fisik yang menguji aturan bisnis utama:
+1. `tests/auth.test.js`
+2. `tests/generator.test.js`
+3. `tests/lock_swap.test.js`
+4. `tests/shopping.test.js`
+5. `tests/catalog.test.js`
+
+### **Cara Menjalankan Unit Test:**
+1. Buka berkas `test.html` di browser (Chrome/Edge/Firefox).
+2. Seluruh tes akan dieksekusi secara otomatis dan menampilkan status **ALL PASSED (100% Lulus)**.
+
+---
+
+## 🛠️ AI Iterative Engineering Workflow
+Pengerjaan proyek ini menerapkan pendekatan AI-Assisted Development:
+1. **Brief:** Memberikan instruksi spesifik per modul ke AI Agent.
+2. **Plan:** Menentukan struktur data dan algoritma toleransi harga.
+3. **Build:** AI membuat scaffold kode awal.
+4. **Verify:** Mahasiswa mereview, menambahkan toleransi budget +25%, serta menguji unit test.
+5. **Commit:** Melakukan *git commit* terpisah sesuai kategori berkas.
+   
 ### Struktur Data Utama (Entities)
 ```typescript
 interface FoodItem {
