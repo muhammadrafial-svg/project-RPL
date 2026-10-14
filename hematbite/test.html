@@ -1,1 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HematBite - Automated Unit Test Suite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen p-6 font-mono">
+    <div class="max-w-4xl mx-auto space-y-6">
+        <!-- Header Test Runner -->
+        <div class="border-b border-slate-700 pb-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-emerald-400 flex items-center gap-2">
+                    <i class="fa-solid fa-vial"></i> HematBite Unit Test Runner
+                </h1>
+                <p class="text-xs text-slate-400 mt-1">Menguji 5 modul aturan bisnis (5 File Unit Test Suite)</p>
+            </div>
+            <div id="test-summary" class="text-right font-bold text-lg"></div>
+        </div>
 
+        <!-- Container Hasil Test -->
+        <div id="test-container" class="space-y-4"></div>
+    </div>
+
+    <!-- Load App Code Base & Test Framework -->
+    <script src="app.js"></script>
+
+    <script>
+        // Mini Testing Framework Engine
+        const testSuites = [];
+        let currentSuite = null;
+
+        window.describe = function(suiteName, fn) {
+            currentSuite = { name: suiteName, tests: [] };
+            testSuites.push(currentSuite);
+            fn();
+        };
+
+        window.test = function(testName, fn) {
+            try {
+                fn();
+                currentSuite.tests.push({ name: testName, passed: true });
+            } catch (err) {
+                currentSuite.tests.push({ name: testName, passed: false, error: err.message });
+            }
+        };
+
+        window.expect = function(actual) {
+            return {
+                toBe(expected) {
+                    if (actual !== expected) throw new Error(`Expected ${expected}, got ${actual}`);
+                },
+                toBeDefined() {
+                    if (actual === undefined || actual === null) throw new Error(`Expected value to be defined`);
+                },
+                toBeLessThanOrEqual(expected) {
+                    if (actual > expected) throw new Error(`Expected <= ${expected}, got ${actual}`);
+                },
+                toBeGreaterThanOrEqual(expected) {
+                    if (actual < expected) throw new Error(`Expected >= ${expected}, got ${actual}`);
+                },
+                toContain(str) {
+                    if (!String(actual).includes(str)) throw new Error(`Expected '${actual}' to contain '${str}'`);
+                }
+            };
+        };
+    </script>
+
+    <!-- Load 5 File Unit Test fisik -->
+    <script src="tests/auth.test.js"></script>
+    <script src="tests/generator.test.js"></script>
+    <script src="tests/lock_swap.test.js"></script>
+    <script src="tests/shopping.test.js"></script>
+    <script src="tests/catalog.test.js"></script>
+
+    <!-- Render Hasil Pengujian -->
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("test-container");
+            let totalPassed = 0;
+            let totalFailed = 0;
+
+            testSuites.forEach(suite => {
+                const suiteBox = document.createElement("div");
+                suiteBox.className = "bg-slate-800 rounded-xl p-4 border border-slate-700 space-y-2";
+                
+                let suiteHtml = `<h2 class="text-sm font-bold text-slate-300 border-b border-slate-700 pb-2">${suite.name}</h2>`;
+                
+                suite.tests.forEach(t => {
+                    if (t.passed) {
+                        totalPassed++;
+                        suiteHtml += `
+                            <div class="text-xs text-emerald-400 flex items-center justify-between py-1">
+                                <span><i class="fa-solid fa-check mr-2"></i>${t.name}</span>
+                                <span class="bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-bold">PASSED</span>
+                            </div>`;
+                    } else {
+                        totalFailed++;
+                        suiteHtml += `
+                            <div class="text-xs text-rose-400 py-1 space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span><i class="fa-solid fa-xmark mr-2"></i>${t.name}</span>
+                                    <span class="bg-rose-950 text-rose-300 px-2 py-0.5 rounded font-bold">FAILED</span>
+                                </div>
+                                <div class="text-[11px] text-rose-300 pl-5">${t.error}</div>
+                            </div>`;
+                    }
+                });
+
+                suiteBox.innerHTML = suiteHtml;
+                container.appendChild(suiteBox);
+            });
+
+            const summaryEl = document.getElementById("test-summary");
+            if (totalFailed === 0) {
+                summaryEl.innerHTML = `<span class="text-emerald-400">${totalPassed} PASSED</span> / <span class="text-slate-500">0 FAILED</span>`;
+            } else {
+                summaryEl.innerHTML = `<span class="text-emerald-400">${totalPassed} PASSED</span> / <span class="text-rose-400">${totalFailed} FAILED</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
